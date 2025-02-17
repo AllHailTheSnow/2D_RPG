@@ -11,11 +11,11 @@ public class EnemyPathfinding : MonoBehaviour
     private Rigidbody2D rb;
     // The direction the enemy is moving in
     private Vector2 moveDir;
-
+    // The knockback component of the enemy
     private Knockback knockback;
-
+    // The sprite renderer of the enemy
     private SpriteRenderer spriteRenderer;
-
+    // The animator of the enemy
     private Animator animator;
 
     private void Awake()
@@ -38,16 +38,18 @@ public class EnemyPathfinding : MonoBehaviour
         // Move the enemy in the direction of moveDir
         rb.MovePosition(rb.position + moveDir * (moveSpeed * Time.fixedDeltaTime));
 
-        if(moveDir.x < 0)
+        // Flip the sprite based on the direction the enemy is moving in
+        if (moveDir.x < 0)
         {
             spriteRenderer.flipX = true;
         }
-        else
+        else if (moveDir.x > 0)
         {
             spriteRenderer.flipX = false;
         }
 
-        if(moveDir != Vector2.zero)
+        // Set the isMoving parameter in the animator based on if the enemy is moving or not
+        if (moveDir != Vector2.zero)
         {
             animator.SetBool("isMoving", true);
         }
@@ -61,5 +63,11 @@ public class EnemyPathfinding : MonoBehaviour
     {
         // Calculate the direction to the target position
         moveDir = targetPosition;
+    }
+
+    public void StopMoving()
+    {
+        // Set the moveDir to zero
+        moveDir = Vector2.zero;
     }
 }

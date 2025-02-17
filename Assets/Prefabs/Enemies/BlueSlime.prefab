@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 5959310053097908463}
   - component: {fileID: 6791873396548634273}
   - component: {fileID: 1522014455497289147}
+  - component: {fileID: 505676424250667613}
+  - component: {fileID: 7436255428288278129}
   m_Layer: 0
   m_Name: BlueSlime
   m_TagString: Untagged
@@ -38,7 +40,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3317458618087636383
 SpriteRenderer:
@@ -161,6 +163,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roamChangeDir: 2
+  attackRange: 0
+  enemyType: {fileID: 0}
+  attackCooldown: 2
+  stopMovingWhileAttacking: 0
 --- !u!114 &2585006085885827001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,7 +221,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 3
   deathVFXPrefab: {fileID: 7036413273632656306, guid: 9ed79c228a9608a44ad49f748d0bddf6, type: 3}
-  knockbackForce: 10
 --- !u!114 &6791873396548634273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,3 +248,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   whiteFlashMat: {fileID: 2100000, guid: 46b4b37e5bbe08f43a39e8b92b677c43, type: 2}
   restoreDefaultMatTime: 0.2
+--- !u!114 &505676424250667613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7487180767219311210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc53a3f4675686046880fbb3d0a7a0a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7436255428288278129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7487180767219311210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b4f08d62f2a99d458f93db0d6681e61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinPrefab: {fileID: 5998506680339359336, guid: d97863f2823101f47a0af224813d6650, type: 3}
+  healthPickupPrefab: {fileID: 8884660981740900174, guid: 0203d57f693d2f34e9558c9f74a26f9e, type: 3}
+  staminaPickupPrefab: {fileID: 1406169515582773327, guid: c7bcf39c5112e164b90d3e0b8dd957dc, type: 3}

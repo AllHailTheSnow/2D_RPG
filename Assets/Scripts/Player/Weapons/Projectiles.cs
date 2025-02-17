@@ -6,8 +6,9 @@ public class Projectiles : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 22f;
     [SerializeField] private GameObject particleVFX;
+    [SerializeField] private bool enemyProjectile = false;
+    [SerializeField] private float projectileRange = 10f;
 
-    private WeaponInfo weaponInfo;
     private Vector3 startPos;
 
     // Start is called before the first frame update
@@ -23,9 +24,14 @@ public class Projectiles : MonoBehaviour
         DetectFireDistance();
     }
 
-    public void UpdateWeaponInfo(WeaponInfo weaponInfo)
+    public void UpdateProjectileRange(float projectileRange)
     {
-        this.weaponInfo = weaponInfo;
+        this.projectileRange = projectileRange;
+    }
+
+    public void UpdateMoveSpeed(float moveSpeed)
+    {
+        this.moveSpeed = moveSpeed;
     }
 
     private void MoveProjectile()
@@ -39,7 +45,7 @@ public class Projectiles : MonoBehaviour
     private void DetectFireDistance()
     {
         //if the distance between the start position and the current position is greater than the weapon range, destroy the projectile
-        if (Vector3.Distance(transform.position, startPos) > weaponInfo.weaponRange)
+        if (Vector3.Distance(transform.position, startPos) > projectileRange)
         {
             Destroy(gameObject);
         }
@@ -51,12 +57,31 @@ public class Projectiles : MonoBehaviour
         EnemyHealth enemyHealth = collision.GetComponent<EnemyHealth>();
         //get the indestructable script from the indestructable object
         Indestructable indestructable = collision.GetComponent<Indestructable>();
+        //get the player health script from the player object
+        PlayerHealth playerHealth = collision.GetComponent<PlayerHealth>();
 
-        //if the projectile collides with an enemy or indestructable object, destroy the projectile and spawn the particle VFX
-        if (!collision.isTrigger && (enemyHealth || indestructable))
+        //if the projectile collides with an enemy, player or indestructable object
+        if (!collision.isTrigger && (enemyHealth || indestructable || playerHealth))
         {
-            Instantiate(particleVFX, transform.position, transform.rotation);
-            Destroy(gameObject);
+            //if the projectile collides with the player and is an enemy projectile or collides with an enemy and is a player projectile
+            if ((playerHealth && enemyProjectile) || (enemyHealth && !enemyProjectile))
+            {
+                if(playerHealth)
+                {
+                    //deal damage to the player
+                    playerHealth?.TakeDamage(1, transform);
+                }
+                
+                //destroy the projectile and spawn the particle VFX
+                Instantiate(particleVFX, transform.position, transform.rotation);
+                Destroy(gameObject);
+            }
+            //if the projectile collides with an indestructable object, spawn the particle VFX and destroy the projectile
+            else if (!collision.isTrigger && indestructable)
+            {
+                Instantiate(particleVFX, transform.position, transform.rotation);
+                Destroy(gameObject);
+            }
         }
     }
 }

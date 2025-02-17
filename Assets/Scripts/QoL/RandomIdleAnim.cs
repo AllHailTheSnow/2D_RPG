@@ -14,6 +14,9 @@ public class RandomIdleAnim : MonoBehaviour
 
     private void Start()
     {
+        //if the animator component is null, return
+        if (!anim) { return; }
+
         //Get the current state of the animator component
         AnimatorStateInfo state = anim.GetCurrentAnimatorStateInfo(0);
         //Play the animation at a random time
